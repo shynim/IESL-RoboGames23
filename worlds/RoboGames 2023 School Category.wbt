@@ -1,0 +1,500 @@
+#VRML_SIM R2023b utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/robots/kuka/youbot/protos/Youbot.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/robots/kuka/youbot/protos/KukaBox.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/GlossyPaint.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/VarnishedPine.proto"
+
+WorldInfo {
+  contactProperties [
+    ContactProperties {
+      material1 "InteriorWheelMat"
+      coulombFriction [
+        0, 2, 0
+      ]
+      frictionRotation -0.785398 0
+      bounce 0
+      forceDependentSlip [
+        10, 0
+      ]
+    }
+    ContactProperties {
+      material1 "ExteriorWheelMat"
+      coulombFriction [
+        0, 2, 0
+      ]
+      frictionRotation 0.785398 0
+      bounce 0
+      forceDependentSlip [
+        10, 0
+      ]
+    }
+  ]
+}
+Viewpoint {
+  orientation -0.08913822975635702 -0.9801768914898032 0.17693964334000784 5.333701250186507
+  position -4.21200405660592 0.871337022407189 5.374727930077101
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 4 3
+  floorAppearance VarnishedPine {
+  }
+}
+Youbot {
+  translation -1.12158e-06 1.1 0.115
+  rotation 0.0015525767319779673 0.001634539858334354 -0.9999974588892429 1.570761463054623
+  controller "controller"
+  controllerArgs [
+    ""
+  ]
+  bodySlot [
+    Lidar {
+      translation -1.53072e-07 -0.16 -0.0699963
+      rotation 2.653579999981315e-06 -2.653579999981315e-06 0.9999999999929585 -1.5707953071795862
+      children [
+        Solid {
+          rotation 0 1 0 1.5708
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0 1 0
+              }
+              geometry Cylinder {
+                height 0.01
+                radius 0.01
+              }
+            }
+          ]
+        }
+      ]
+      name "lidar3"
+      horizontalResolution 1
+      fieldOfView 1e-23
+      numberOfLayers 1
+      maxRange 4
+    }
+    Lidar {
+      translation 2.08292e-13 0.16 -0.0699957
+      rotation 2.653579999981315e-06 2.653579999981315e-06 0.9999999999929585 1.5708
+      children [
+        Solid {
+          rotation 0 1 0 1.5708
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0 1 0
+              }
+              geometry Cylinder {
+                height 0.01
+                radius 0.01
+              }
+            }
+          ]
+        }
+      ]
+      name "lidar1"
+      horizontalResolution 1
+      fieldOfView 1e-23
+      numberOfLayers 1
+      maxRange 4
+    }
+    Lidar {
+      translation 0.28 0 -0.0699991
+      rotation 0 1 0 5.30716e-06
+      children [
+        Solid {
+          rotation 0 1 0 1.5708
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0 1 0
+              }
+              geometry Cylinder {
+                height 0.01
+                radius 0.01
+              }
+            }
+          ]
+        }
+      ]
+      name "lidar2"
+      horizontalResolution 1
+      fieldOfView 1e-23
+      numberOfLayers 1
+      maxRange 4
+    }
+    Compass {
+      translation 0 0 0.01
+      children [
+        Solid {
+          translation 0 0 -0.01
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 1 0 0
+              }
+              geometry Box {
+                size 0.01 0.01 0.006
+              }
+            }
+          ]
+        }
+      ]
+    }
+    GPS {
+      children [
+        Solid {
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0 0 1
+              }
+              geometry Cylinder {
+                height 0.005
+                radius 0.015
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+DEF TOWERS Group {
+  children [
+    Solid {
+      translation 1.7 0 0.04
+      children [
+        DEF TOWER_WALL Shape {
+          appearance PBRAppearance {
+            baseColor 0.333333 0 0
+            transparency 0.1
+          }
+          geometry Box {
+            size 0.05 0.01 0.08
+          }
+        }
+      ]
+      boundingObject USE TOWER_WALL
+      locked TRUE
+    }
+    Solid {
+      translation 1.7 -0.5 0.04
+      children [
+        USE TOWER_WALL
+      ]
+      name "solid(13)"
+      boundingObject USE TOWER_WALL
+      locked TRUE
+    }
+    Solid {
+      translation 1.7 -1 0.04
+      children [
+        USE TOWER_WALL
+      ]
+      name "solid(17)"
+      boundingObject USE TOWER_WALL
+      locked TRUE
+    }
+    Solid {
+      translation 1.7 0.5 0.04
+      children [
+        USE TOWER_WALL
+      ]
+      name "solid(4)"
+      boundingObject USE TOWER_WALL
+      locked TRUE
+    }
+    Solid {
+      translation 1.7 1 0.04
+      children [
+        USE TOWER_WALL
+      ]
+      name "solid(9)"
+      boundingObject USE TOWER_WALL
+      locked TRUE
+    }
+    Solid {
+      translation 1.68 -0.0199987 0.04
+      rotation 0 0 1 -1.5707953071795862
+      children [
+        USE TOWER_WALL
+      ]
+      name "solid(1)"
+      boundingObject USE TOWER_WALL
+      locked TRUE
+    }
+    Solid {
+      translation 1.68 -0.519999 0.04
+      rotation 0 0 1 -1.5707953071795862
+      children [
+        USE TOWER_WALL
+      ]
+      name "solid(15)"
+      boundingObject USE TOWER_WALL
+      locked TRUE
+    }
+    Solid {
+      translation 1.68 -1.02 0.04
+      rotation 0 0 1 -1.5707953071795862
+      children [
+        USE TOWER_WALL
+      ]
+      name "solid(16)"
+      boundingObject USE TOWER_WALL
+      locked TRUE
+    }
+    Solid {
+      translation 1.68 0.480001 0.04
+      rotation 0 0 1 -1.5707953071795862
+      children [
+        USE TOWER_WALL
+      ]
+      name "solid(7)"
+      boundingObject USE TOWER_WALL
+      locked TRUE
+    }
+    Solid {
+      translation 1.68 0.980001 0.04
+      rotation 0 0 1 -1.5707953071795862
+      children [
+        USE TOWER_WALL
+      ]
+      name "solid(11)"
+      boundingObject USE TOWER_WALL
+      locked TRUE
+    }
+    Solid {
+      translation 1.7 -0.0399983 0.04
+      rotation 0 0 1 1.01503e-06
+      children [
+        USE TOWER_WALL
+      ]
+      name "solid(2)"
+      boundingObject USE TOWER_WALL
+      locked TRUE
+    }
+    Solid {
+      translation 1.7 -0.539998 0.04
+      rotation 0 0 1 1.01503e-06
+      children [
+        USE TOWER_WALL
+      ]
+      name "solid(14)"
+      boundingObject USE TOWER_WALL
+      locked TRUE
+    }
+    Solid {
+      translation 1.7 -1.04 0.04
+      rotation 0 0 1 1.01503e-06
+      children [
+        USE TOWER_WALL
+      ]
+      name "solid(19)"
+      boundingObject USE TOWER_WALL
+      locked TRUE
+    }
+    Solid {
+      translation 1.7 0.460002 0.04
+      rotation 0 0 1 1.01503e-06
+      children [
+        USE TOWER_WALL
+      ]
+      name "solid(8)"
+      boundingObject USE TOWER_WALL
+      locked TRUE
+    }
+    Solid {
+      translation 1.7 0.960002 0.04
+      rotation 0 0 1 1.01503e-06
+      children [
+        USE TOWER_WALL
+      ]
+      name "solid(12)"
+      boundingObject USE TOWER_WALL
+      locked TRUE
+    }
+    Solid {
+      translation 1.72 -0.0199946 0.04
+      rotation 0 0 1 1.5708
+      children [
+        USE TOWER_WALL
+      ]
+      name "solid(3)"
+      boundingObject USE TOWER_WALL
+      locked TRUE
+    }
+    Solid {
+      translation 1.72 -0.519995 0.04
+      rotation 0 0 1 1.5708
+      children [
+        USE TOWER_WALL
+      ]
+      name "solid(5)"
+      boundingObject USE TOWER_WALL
+      locked TRUE
+    }
+    Solid {
+      translation 1.72 -1.01999 0.04
+      rotation 0 0 1 1.5708
+      children [
+        USE TOWER_WALL
+      ]
+      name "solid(18)"
+      boundingObject USE TOWER_WALL
+      locked TRUE
+    }
+    Solid {
+      translation 1.72 0.480005 0.04
+      rotation 0 0 1 1.5708
+      children [
+        USE TOWER_WALL
+      ]
+      name "solid(6)"
+      boundingObject USE TOWER_WALL
+      locked TRUE
+    }
+    Solid {
+      translation 1.72 0.98 0.04
+      rotation 0 0 1 1.5708
+      children [
+        USE TOWER_WALL
+      ]
+      name "solid(10)"
+      boundingObject USE TOWER_WALL
+      locked TRUE
+    }
+  ]
+}
+DEF START Solid {
+  translation 0 1.1 0.0001
+  children [
+    Shape {
+      appearance GlossyPaint {
+        baseColor 0.666667 1 1
+      }
+      geometry Plane {
+        size 0.8 0.8
+      }
+    }
+  ]
+  name "solid(20)"
+}
+DEF BOX_AREA Solid {
+  translation -1.675 0.025 0.0001
+  children [
+    Shape {
+      appearance GlossyPaint {
+        baseColor 1 1 0.498039
+      }
+      geometry Plane {
+        size 0.25 0.25
+      }
+    }
+  ]
+  name "solid(21)"
+}
+DEF BOXES Group {
+  children [
+    KukaBox {
+      translation -1.5999999999991483 8.510484900863324e-13 0.012483445632789981
+      rotation 0.7071071545745428 -0.7071064077980659 6.395982450059936e-07 2.9907965740281635e-10
+      name "Kuka box(4)"
+    }
+    KukaBox {
+      translation -1.5999999999991483 0.05000000000085107 0.012483445632789981
+      rotation 0.7071065302311477 -0.707107032141398 8.06816752173152e-07 2.99080516474729e-10
+      name "Kuka box(8)"
+    }
+    KukaBox {
+      translation -1.5999999999991485 0.10000000000085106 0.012483445632789978
+      rotation 0.7071062462512337 -0.707107316121382 -3.246314003615812e-07 2.9908008383016755e-10
+      name "Kuka box(15)"
+    }
+    KukaBox {
+      translation -1.5999999999991483 -0.04999999999914894 0.012483445632789983
+      rotation 0.7071070244381176 -0.707106537934831 -2.9820402115672517e-07 2.9908024856926663e-10
+      name "Kuka box(7)"
+    }
+    KukaBox {
+      translation -1.7499999999991482 8.510484900863324e-13 0.012483445632789981
+      rotation 0.7071071545745428 -0.7071064077980659 6.395982450059936e-07 2.9907965740281635e-10
+    }
+    KukaBox {
+      translation -1.7499999999991482 0.05000000000085107 0.012483445632789981
+      rotation 0.7071065302311477 -0.707107032141398 8.06816752173152e-07 2.99080516474729e-10
+      name "Kuka box(11)"
+    }
+    KukaBox {
+      translation -1.7499999999991485 0.10000000000085106 0.012483445632789978
+      rotation 0.7071062462512337 -0.707107316121382 -3.246314003615812e-07 2.9908008383016755e-10
+      name "Kuka box(12)"
+    }
+    KukaBox {
+      translation -1.7499999999991482 -0.04999999999914894 0.012483445632789983
+      rotation 0.7071070244381176 -0.707106537934831 -2.9820402115672517e-07 2.9908024856926663e-10
+      name "Kuka box(3)"
+    }
+    KukaBox {
+      translation -1.6999999999991482 8.510280992652089e-13 0.012483445632789983
+      rotation 0.7071067298657183 -0.7071068325066174 -1.033727377856202e-06 2.9908012084154267e-10
+      name "Kuka box(1)"
+    }
+    KukaBox {
+      translation -1.6999999999991482 0.050000000000851044 0.012483445632789981
+      rotation 0.7071061087427388 -0.7071074536297115 -8.704531754688236e-08 2.990797655156457e-10
+      name "Kuka box(10)"
+    }
+    KukaBox {
+      translation -1.6999999999991482 0.10000000000085107 0.012483445632789981
+      rotation 0.7071063327319829 -0.7071072296407978 -2.0658200367841068e-07 2.9908026159197204e-10
+      name "Kuka box(13)"
+    }
+    KukaBox {
+      translation -1.699999999999148 -0.049999999999148954 0.012483445632789983
+      rotation 0.7071066899270633 -0.7071068724457379 6.317794756730519e-07 2.9908010717556997e-10
+      name "Kuka box(5)"
+    }
+    KukaBox {
+      translation -1.6499999999991481 8.510484900863324e-13 0.012483445632789981
+      rotation 0.7071071545745428 -0.7071064077980659 6.395982450059936e-07 2.9907965740281635e-10
+      name "Kuka box(2)"
+    }
+    KukaBox {
+      translation -1.6499999999991481 0.05000000000085107 0.012483445632789981
+      rotation 0.7071065302311477 -0.707107032141398 8.06816752173152e-07 2.99080516474729e-10
+      name "Kuka box(9)"
+    }
+    KukaBox {
+      translation -1.6499999999991484 0.10000000000085106 0.012483445632789978
+      rotation 0.7071062462512337 -0.707107316121382 -3.246314003615812e-07 2.9908008383016755e-10
+      name "Kuka box(14)"
+    }
+    KukaBox {
+      translation -1.6499999999991481 -0.04999999999914894 0.012483445632789983
+      rotation 0.7071070244381176 -0.707106537934831 -2.9820402115672517e-07 2.9908024856926663e-10
+      name "Kuka box(6)"
+    }
+  ]
+}
+DEF TOWER_AREA Solid {
+  translation 1.7 0 0.0001
+  children [
+    Shape {
+      appearance GlossyPaint {
+        baseColor 1 0.207843 0.207843
+      }
+      geometry Plane {
+        size 0.15 2.5
+      }
+    }
+  ]
+  name "solid(22)"
+}

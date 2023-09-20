@@ -8,5 +8,5 @@ build/release/controller.o: controller.cpp \
  C:\Program\ Files\Webots/include/controller/c/webots/lidar_point.h \
  C:\Program\ Files\Webots/include/controller/c/webots/compass.h \
  C:\Program\ Files\Webots/include/controller/c/webots/gps.h \
- C:\Users\muthu\Documents\RoboGames23\libraries\youbot_control\include/arm.h \
- C:\Users\muthu\Documents\RoboGames23\libraries\youbot_control\include/gripper.h
+ C:\Users\muthu\Documents\RoboGames23\libraries/arm.h \
+ C:\Users\muthu\Documents\RoboGames23\libraries/gripper.h

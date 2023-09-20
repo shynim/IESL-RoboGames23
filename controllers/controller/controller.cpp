@@ -7,14 +7,12 @@ using namespace std;
 #include <webots/lidar.h>
 #include <webots/compass.h>
 #include <webots/gps.h>
-
-#include <arm.h>
-#include <gripper.h>
-
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <arm.h>
+#include <gripper.h>
 
 #define MAX_SPEED 0.3 // m/s
 #define DISTANCE_TOLERANCE 0.001
@@ -39,12 +37,14 @@ static double robot_omega = 0.0;
 bool go_to_reached = false;
 bool turn_to_reached = false;
 
-static double kx = 10;
-static double ky = 10;
+static double kx = 50;
+static double ky = 50;
 static double kz = 10;
 
-static double setPoint_x = 0.0;
-static double setPoint_y = 0.0;
+int pc = 0;
+double m = 0.001;
+double x = -1.725;
+double y = 0.6;
 
 struct Vector{
   double u;
@@ -136,7 +136,7 @@ void pid_z(double setAng, double currentAng){
 }
 
 bool are_same(float a, double b, double tolerance = 1e-6) {
-    return std::fabs(a - b) < tolerance;
+  return std::fabs(a - b) < tolerance;
 }
 
 double angle(const Vector *v1, const Vector *v2) {
@@ -245,8 +245,48 @@ void gps_init(){
 
 }
 
+void base_control(){
+  int c = wb_keyboard_get_key();
+    
+    if ((c >= 0) && c != pc) {
+      switch (c) {
+        case WB_KEYBOARD_UP:
+          x += m;
+          break;
+        case WB_KEYBOARD_DOWN:
+          x -= m;
+          break;
+        case WB_KEYBOARD_LEFT:
+          y += m;
+          break;
+        case WB_KEYBOARD_RIGHT:
+          y -= m;
+          break;
+        case WB_KEYBOARD_UP | WB_KEYBOARD_SHIFT:
+          m *= 10;
+          break;
+        case WB_KEYBOARD_DOWN | WB_KEYBOARD_SHIFT:
+          m /= 10;
+          break;
+        default:
+          fprintf(stderr, "Wrong keyboard input\n");
+          break;
+      }
+      go_to_reached = false;
+      go_to(x, y);
+      cout << x << " " << y << " " << m <<  endl;
+    }
+    pc = c;
+
+}
+
+void grab_cubes(){
+
+}
+
 int main(int argc, char **argv) {
   wb_robot_init();
+  wb_keyboard_enable(TIME_STEP);
 
   compass_init();
   gps_init();
@@ -254,41 +294,415 @@ int main(int argc, char **argv) {
   lidar_init();
   arm_init();
   gripper_init();
-  passive_wait(2.0);
+  passive_wait(1);
 
   //main loop
+  
   while(true){
   
     step();
-    // go_to_reached = false;
-    // go_to(setPoint_x, setPoint_y);
 
-    // go_to_reached = false;
-    // go_to(-1.0, -1.0);
-     
-    // go_to_reached = false;
-    // go_to(1.0, -1.0);
+    go_to_reached = false;
+    go_to(x, y);
 
-    // go_to_reached = false;
-    // go_to(1.0, -1.0);
+    gripper_release();
+    passive_wait(1);
 
-    // const double *compass_raw_values = wb_compass_get_values(compass);
+    arm_set_height(ARM_FLOOR);
+    passive_wait(2);
 
-    // Vector front = {compass_raw_values[0], compass_raw_values[1]};
-    // Vector north = {1.0, 0.0};
+    kx = 10;
+    ky = 10;
 
-    // double theta = angle(&front, &north);
-    // cout << theta << endl;
-    // base_move(robot_vx, robot_vy, 0.5);
+    go_to_reached = false;
+    go_to(-1.725, 0.441);
 
-    turn_to_reached = false;
-    turn_to(M_PI / 2);
+    kx = 50;
+    ky = 50;
 
-    turn_to_reached = false;
-    turn_to(-(M_PI / 2));
+    go_to_reached = false;
+    go_to(x, y);
+
+    go_to_reached = false;
+    go_to(-1.625, 0.6);
+
+    kx = 10;
+    ky = 10;
+
+    go_to_reached = false;
+    go_to(-1.625, 0.441);
+
+    kx = 50;
+    ky = 50;
+
+    go_to_reached = false; //
+    go_to(-1.75, 0.5);    
+    
+    go_to_reached = false;
+    go_to(-1.75, 0.409);
+
+    gripper_grip();
+    passive_wait(1);
+
+    go_to_reached = false;
+    go_to(-1.75, 0.5);
+
+    arm_set_height(ARM_PLATE);
+    passive_wait(1);
+
+    go_to_reached = false;
+    go_to(1.256, 1.14);
+
+    arm_set_height(ARM_DOWN);
+    passive_wait(1);
+
+    arm_set_orientation(ARM_RIGHT);
+    passive_wait(1.3);
+
+    gripper_release();
+    passive_wait(1);
+
+    arm_set_height(ARM_FLOOR);
+    passive_wait(1);
+
+    arm_set_orientation(ARM_FRONT);
+    passive_wait(1);
+   
+    go_to_reached = false; //
+    go_to(-1.7, 0.5);    
+    
+    go_to_reached = false;
+    go_to(-1.7, 0.409);
+
+    gripper_grip();
+    passive_wait(1);
+
+    go_to_reached = false;
+    go_to(-1.7, 0.5);
+
+    arm_set_height(ARM_PLATE);
+    passive_wait(1);
+
+    go_to_reached = false;
+    go_to(1.256, 0.64);
+
+    arm_set_height(ARM_DOWN);
+    passive_wait(1);
+
+    arm_set_orientation(ARM_RIGHT);
+    passive_wait(1.3);
+
+    gripper_release();
+    passive_wait(1);
+
+    arm_set_height(ARM_FLOOR);
+    passive_wait(1);
+
+    arm_set_orientation(ARM_FRONT);
+    passive_wait(1);
+   
+    go_to_reached = false; //
+    go_to(-1.65, 0.5);    
+    
+    go_to_reached = false;
+    go_to(-1.65, 0.409);
+
+    gripper_grip();
+    passive_wait(1);
+
+    go_to_reached = false;
+    go_to(-1.65, 0.5);
+
+    arm_set_height(ARM_PLATE);
+    passive_wait(1);
+
+    go_to_reached = false;
+    go_to(1.256, 0.14);
+
+    arm_set_height(ARM_DOWN);
+    passive_wait(1);
+
+    arm_set_orientation(ARM_RIGHT);
+    passive_wait(1.3);
+
+    gripper_release();
+    passive_wait(1);
+
+    arm_set_height(ARM_FLOOR);
+    passive_wait(1);
+
+    arm_set_orientation(ARM_FRONT);
+    passive_wait(1);
+   
+    go_to_reached = false; //
+    go_to(-1.6, 0.5);    
+    
+    go_to_reached = false;
+    go_to(-1.6, 0.409);
+
+    gripper_grip();
+    passive_wait(1);
+
+    go_to_reached = false;
+    go_to(-1.6, 0.5);
+
+    arm_set_height(ARM_PLATE);
+    passive_wait(1);
+
+    go_to_reached = false;
+    go_to(1.256, -0.36);
+
+    arm_set_height(ARM_DOWN);
+    passive_wait(1);
+
+    arm_set_orientation(ARM_RIGHT);
+    passive_wait(1.3);
+
+    gripper_release();
+    passive_wait(1);
+
+    arm_set_height(ARM_FLOOR);
+    passive_wait(1);
+
+    arm_set_orientation(ARM_FRONT);
+    passive_wait(1);
+   
+    go_to_reached = false; //
+    go_to(-1.75, 0.5);    
+    
+    go_to_reached = false;
+    go_to(-1.75, 0.359);
+
+    gripper_grip();
+    passive_wait(1);
+
+    go_to_reached = false;
+    go_to(-1.75, 0.5);
+
+    arm_set_height(ARM_PLATE);
+    passive_wait(1);
+
+    go_to_reached = false;
+    go_to(1.256, -0.86);
+
+    arm_set_height(ARM_DOWN);
+    passive_wait(1);
+
+    arm_set_orientation(ARM_RIGHT);
+    passive_wait(1.3);
+
+    gripper_release();
+    passive_wait(1);
+
+    arm_set_height(ARM_FLOOR);
+    passive_wait(1);
+
+    arm_set_orientation(ARM_FRONT);
+    passive_wait(1);
+   
+    go_to_reached = false; //
+    go_to(-1.7, 0.5);    
+    
+    go_to_reached = false;
+    go_to(-1.7, 0.359);
+
+    gripper_grip();
+    passive_wait(1);
+
+    go_to_reached = false;
+    go_to(-1.7, 0.5);
+
+    go_to_reached = false;
+    go_to(1.256, 1.0365);
+
+    gripper_release();
+    passive_wait(1);
+
+    go_to_reached = false;
+    go_to(1.256, 1.049);
+
+    gripper_grip();
+    passive_wait(1);
+
+    go_to_reached = false;
+    go_to(1.256, 1.14);
+
+    arm_set_height(ARM_PLATE);
+    passive_wait(1);
+    
+    arm_set_height(ARM_DOWN);
+    passive_wait(1);
+
+    arm_set_orientation(ARM_RIGHT);
+    passive_wait(1.3);
+
+    gripper_release();
+    passive_wait(1);
+
+    arm_set_height(ARM_FLOOR);
+    passive_wait(1);
+
+    arm_set_orientation(ARM_FRONT);
+    passive_wait(1);
+
+    gripper_release();
+    passive_wait(1);
+
+    go_to_reached = false;
+    go_to(1.256, 1.0240);
+
+    gripper_grip();
+    passive_wait(1);
+
+    go_to_reached = false;
+    go_to(1.256, 0.64);
+
+    arm_set_height(ARM_PLATE);
+    passive_wait(1);
+    
+    arm_set_height(ARM_DOWN);
+    passive_wait(1);
+
+    arm_set_orientation(ARM_RIGHT);
+    passive_wait(1.3);
+
+    gripper_release();
+    passive_wait(1);
+
+    arm_set_height(ARM_FLOOR);
+    passive_wait(1);
+
+    arm_set_orientation(ARM_FRONT);
+    passive_wait(1);
+   
+    go_to_reached = false; //
+    go_to(-1.65, 0.5);    
+    
+    go_to_reached = false;
+    go_to(-1.65, 0.359);
+
+    gripper_grip();
+    passive_wait(1);
+
+    go_to_reached = false;
+    go_to(-1.65, 0.5);
+
+    go_to_reached = false;
+    go_to(1.256, 0.0365);
+
+    gripper_release();
+    passive_wait(1);
+
+    go_to_reached = false;
+    go_to(1.256, 0.049);
+
+    gripper_grip();
+    passive_wait(1);
+
+    go_to_reached = false;
+    go_to(1.256, 0.14);
+
+    arm_set_height(ARM_PLATE);
+    passive_wait(1);
+    
+    arm_set_height(ARM_DOWN);
+    passive_wait(1);
+
+    arm_set_orientation(ARM_RIGHT);
+    passive_wait(1.3);
+
+    gripper_release();
+    passive_wait(1);
+
+    arm_set_height(ARM_FLOOR);
+    passive_wait(1);
+
+    arm_set_orientation(ARM_FRONT);
+    passive_wait(1);
+
+    gripper_release();
+    passive_wait(1);
+
+    go_to_reached = false;
+    go_to(1.256, 0.024);
+
+    gripper_grip();
+    passive_wait(1);
+
+    go_to_reached = false;
+    go_to(1.256, -0.36);
+
+    arm_set_height(ARM_PLATE);
+    passive_wait(1);
+    
+    arm_set_height(ARM_DOWN);
+    passive_wait(1);
+
+    arm_set_orientation(ARM_RIGHT);
+    passive_wait(1.3);
+
+    gripper_release();
+    passive_wait(1);
+
+    arm_set_height(ARM_FLOOR);
+    passive_wait(1);
+
+    arm_set_orientation(ARM_FRONT);
+    passive_wait(1);
+   
+    go_to_reached = false; //
+    go_to(-1.6, 0.5);    
+    
+    go_to_reached = false;
+    go_to(-1.6, 0.359);
+
+    gripper_grip();
+    passive_wait(1);
+
+    go_to_reached = false;
+    go_to(-1.6, 0.5);
+
+    arm_set_height(ARM_PLATE);
+    passive_wait(1);
+
+    go_to_reached = false;
+    go_to(1.256, -0.86);
+
+    arm_set_height(ARM_DOWN);
+    passive_wait(1);
+
+    arm_set_orientation(ARM_RIGHT);
+    passive_wait(1.3);
+
+    gripper_release();
+    passive_wait(1);
+
+    break;
+
+
+
+
+
+
+    // x = 1.256;
+    // y = 1.138;
+    // while(true){
+    //   step();
+
+    //   base_control();
+    // }
+    
+
   }
 
   wb_robot_cleanup();
 
   return 0;
 }
+
+// -1.725 0.441
+// -1.625 0.441
+
+// -1.75 0.6
+// -1.75 0.409
+

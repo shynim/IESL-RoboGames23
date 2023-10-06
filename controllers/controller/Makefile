@@ -69,7 +69,4 @@ USE_C_API = true
 null :=
 space := $(null) $(null)
 WEBOTS_HOME_PATH?=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
-RESOURCES_PATH = C:\Users\muthu\Documents\RoboGames23
-INCLUDE = -I"C:\Users\muthu\Documents\RoboGames23\libraries"
-###LIBRARIES = -L"C:\Users\muthu\Documents\RoboGames23\libraries\youbot_control" -lyoubot_control
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include

@@ -139,7 +139,7 @@ bool are_same(float a, double b, double tolerance = 1e-6) {
   return std::fabs(a - b) < tolerance;
 }
 
-double angle(const Vector *v1, const Vector *v2) {
+double angle(const  Vector *v1, const  Vector *v2) {
   return atan2(v2->v, v2->u) - atan2(v1->v, v1->u);
 }
 
@@ -280,429 +280,189 @@ void base_control(){
 
 }
 
-void grab_cubes(){
+void place_double(const Vector &pickup, const Vector &place){
+  go_to_reached = false;
+  go_to(pickup.u, 0.5);    
+  
+  go_to_reached = false;
+  go_to(pickup.u, pickup.v);
 
+  gripper_grip();
+  passive_wait(0.5);
+
+  go_to_reached = false;
+  go_to(pickup.u, 0.5);
+
+  arm_set_height(ARM_PLATE);
+  passive_wait(0.25);
+
+  arm_set_height(ARM_DOWN);
+
+  arm_set_orientation(ARM_RIGHT);
+
+  go_to_reached = false;
+  go_to(place.u, place.v);
+
+  gripper_release();
+  passive_wait(0.2);
+
+  arm_set_height(ARM_FLOOR);
+
+  arm_set_orientation(ARM_FRONT);
+ 
+}
+
+void place_single(const Vector (&pos_arr)[8]){
+
+  int i = 0;
+
+  go_to_reached = false; //
+  go_to(pos_arr[i++].u, pos_arr[i].v);    
+  
+  go_to_reached = false;
+  go_to(pos_arr[i++].u, pos_arr[i].v);    
+
+  gripper_grip();
+  passive_wait(0.5);
+
+  go_to_reached = false;
+  go_to(pos_arr[i++].u, pos_arr[i].v);    
+
+  go_to_reached = false;
+  go_to(pos_arr[i++].u, pos_arr[i].v);    
+
+  gripper_release();
+  passive_wait(0.5);
+
+  go_to_reached = false;
+  go_to(pos_arr[i++].u, pos_arr[i].v);    
+
+  gripper_grip();
+  passive_wait(0.5);
+
+  go_to_reached = false;
+  go_to(pos_arr[i++].u, pos_arr[i].v);    
+
+  arm_set_height(ARM_PLATE);
+  passive_wait(0.5);
+  
+  arm_set_height(ARM_DOWN);
+  passive_wait(0.5);
+
+  arm_set_orientation(ARM_RIGHT);
+  passive_wait(1.3);
+
+  gripper_release();
+  passive_wait(0.5);
+
+  arm_set_height(ARM_FLOOR);
+  passive_wait(0.5);
+
+  arm_set_orientation(ARM_FRONT);
+  passive_wait(0.5);
+
+  gripper_release();
+  passive_wait(0.2);
+
+  go_to_reached = false;
+  go_to(pos_arr[i++].u, pos_arr[i].v);    
+
+  gripper_grip();
+  passive_wait(0.5);
+
+  go_to_reached = false;
+  go_to(pos_arr[i++].u, pos_arr[i].v);    
+
+  arm_set_height(ARM_PLATE);
+  passive_wait(0.5);
+  
+  arm_set_height(ARM_DOWN);
+  passive_wait(0.5);
+
+  arm_set_orientation(ARM_RIGHT);
+  passive_wait(1.3);
+
+  gripper_release();
+  passive_wait(0.2);
+
+  arm_set_height(ARM_FLOOR);
+
+  arm_set_orientation(ARM_FRONT);
+  
+  
 }
 
 int main(int argc, char **argv) {
+
   wb_robot_init();
-  wb_keyboard_enable(TIME_STEP);
 
   compass_init();
   gps_init();
   base_init();
-  lidar_init();
   arm_init();
   gripper_init();
-  passive_wait(1);
+  passive_wait(0.2);
 
   //main loop
-  
   while(true){
   
     step();
 
-    go_to_reached = false;
-    go_to(x, y);
-
     gripper_release();
-    passive_wait(1);
 
     arm_set_height(ARM_FLOOR);
-    passive_wait(2);
+
+    //align with first set
+    go_to_reached = false;
+    go_to(x, y);
 
     kx = 10;
     ky = 10;
 
+    //pushing first set
     go_to_reached = false;
     go_to(-1.725, 0.441);
 
     kx = 50;
     ky = 50;
-
+     
+    //align with first set
     go_to_reached = false;
     go_to(x, y);
 
+    //align with second set
     go_to_reached = false;
     go_to(-1.625, 0.6);
-
+ 
     kx = 10;
     ky = 10;
 
+    //pushing second set
     go_to_reached = false;
     go_to(-1.625, 0.441);
 
     kx = 50;
     ky = 50;
-
-    go_to_reached = false; //
-    go_to(-1.75, 0.5);    
     
-    go_to_reached = false;
-    go_to(-1.75, 0.409);
-
-    gripper_grip();
-    passive_wait(1);
-
-    go_to_reached = false;
-    go_to(-1.75, 0.5);
-
-    arm_set_height(ARM_PLATE);
-    passive_wait(1);
-
-    go_to_reached = false;
-    go_to(1.256, 1.14);
-
-    arm_set_height(ARM_DOWN);
-    passive_wait(1);
-
-    arm_set_orientation(ARM_RIGHT);
-    passive_wait(1.3);
-
-    gripper_release();
-    passive_wait(1);
-
-    arm_set_height(ARM_FLOOR);
-    passive_wait(1);
-
-    arm_set_orientation(ARM_FRONT);
-    passive_wait(1);
-   
-    go_to_reached = false; //
-    go_to(-1.7, 0.5);    
-    
-    go_to_reached = false;
-    go_to(-1.7, 0.409);
-
-    gripper_grip();
-    passive_wait(1);
-
-    go_to_reached = false;
-    go_to(-1.7, 0.5);
-
-    arm_set_height(ARM_PLATE);
-    passive_wait(1);
-
-    go_to_reached = false;
-    go_to(1.256, 0.64);
-
-    arm_set_height(ARM_DOWN);
-    passive_wait(1);
-
-    arm_set_orientation(ARM_RIGHT);
-    passive_wait(1.3);
-
-    gripper_release();
-    passive_wait(1);
-
-    arm_set_height(ARM_FLOOR);
-    passive_wait(1);
-
-    arm_set_orientation(ARM_FRONT);
-    passive_wait(1);
-   
-    go_to_reached = false; //
-    go_to(-1.65, 0.5);    
-    
-    go_to_reached = false;
-    go_to(-1.65, 0.409);
-
-    gripper_grip();
-    passive_wait(1);
-
-    go_to_reached = false;
-    go_to(-1.65, 0.5);
-
-    arm_set_height(ARM_PLATE);
-    passive_wait(1);
-
-    go_to_reached = false;
-    go_to(1.256, 0.14);
-
-    arm_set_height(ARM_DOWN);
-    passive_wait(1);
-
-    arm_set_orientation(ARM_RIGHT);
-    passive_wait(1.3);
-
-    gripper_release();
-    passive_wait(1);
-
-    arm_set_height(ARM_FLOOR);
-    passive_wait(1);
-
-    arm_set_orientation(ARM_FRONT);
-    passive_wait(1);
-   
-    go_to_reached = false; //
-    go_to(-1.6, 0.5);    
-    
-    go_to_reached = false;
-    go_to(-1.6, 0.409);
-
-    gripper_grip();
-    passive_wait(1);
-
-    go_to_reached = false;
-    go_to(-1.6, 0.5);
-
-    arm_set_height(ARM_PLATE);
-    passive_wait(1);
-
-    go_to_reached = false;
-    go_to(1.256, -0.36);
-
-    arm_set_height(ARM_DOWN);
-    passive_wait(1);
-
-    arm_set_orientation(ARM_RIGHT);
-    passive_wait(1.3);
-
-    gripper_release();
-    passive_wait(1);
-
-    arm_set_height(ARM_FLOOR);
-    passive_wait(1);
-
-    arm_set_orientation(ARM_FRONT);
-    passive_wait(1);
-   
-    go_to_reached = false; //
-    go_to(-1.75, 0.5);    
-    
-    go_to_reached = false;
-    go_to(-1.75, 0.359);
-
-    gripper_grip();
-    passive_wait(1);
-
-    go_to_reached = false;
-    go_to(-1.75, 0.5);
-
-    arm_set_height(ARM_PLATE);
-    passive_wait(1);
-
-    go_to_reached = false;
-    go_to(1.256, -0.86);
-
-    arm_set_height(ARM_DOWN);
-    passive_wait(1);
-
-    arm_set_orientation(ARM_RIGHT);
-    passive_wait(1.3);
-
-    gripper_release();
-    passive_wait(1);
-
-    arm_set_height(ARM_FLOOR);
-    passive_wait(1);
-
-    arm_set_orientation(ARM_FRONT);
-    passive_wait(1);
-   
-    go_to_reached = false; //
-    go_to(-1.7, 0.5);    
-    
-    go_to_reached = false;
-    go_to(-1.7, 0.359);
-
-    gripper_grip();
-    passive_wait(1);
-
-    go_to_reached = false;
-    go_to(-1.7, 0.5);
-
-    go_to_reached = false;
-    go_to(1.256, 1.0365);
-
-    gripper_release();
-    passive_wait(1);
-
-    go_to_reached = false;
-    go_to(1.256, 1.049);
-
-    gripper_grip();
-    passive_wait(1);
-
-    go_to_reached = false;
-    go_to(1.256, 1.14);
-
-    arm_set_height(ARM_PLATE);
-    passive_wait(1);
-    
-    arm_set_height(ARM_DOWN);
-    passive_wait(1);
-
-    arm_set_orientation(ARM_RIGHT);
-    passive_wait(1.3);
-
-    gripper_release();
-    passive_wait(1);
-
-    arm_set_height(ARM_FLOOR);
-    passive_wait(1);
-
-    arm_set_orientation(ARM_FRONT);
-    passive_wait(1);
-
-    gripper_release();
-    passive_wait(1);
-
-    go_to_reached = false;
-    go_to(1.256, 1.0240);
-
-    gripper_grip();
-    passive_wait(1);
-
-    go_to_reached = false;
-    go_to(1.256, 0.64);
-
-    arm_set_height(ARM_PLATE);
-    passive_wait(1);
-    
-    arm_set_height(ARM_DOWN);
-    passive_wait(1);
-
-    arm_set_orientation(ARM_RIGHT);
-    passive_wait(1.3);
-
-    gripper_release();
-    passive_wait(1);
-
-    arm_set_height(ARM_FLOOR);
-    passive_wait(1);
-
-    arm_set_orientation(ARM_FRONT);
-    passive_wait(1);
-   
-    go_to_reached = false; //
-    go_to(-1.65, 0.5);    
-    
-    go_to_reached = false;
-    go_to(-1.65, 0.359);
-
-    gripper_grip();
-    passive_wait(1);
-
-    go_to_reached = false;
-    go_to(-1.65, 0.5);
-
-    go_to_reached = false;
-    go_to(1.256, 0.0365);
-
-    gripper_release();
-    passive_wait(1);
-
-    go_to_reached = false;
-    go_to(1.256, 0.049);
-
-    gripper_grip();
-    passive_wait(1);
-
-    go_to_reached = false;
-    go_to(1.256, 0.14);
-
-    arm_set_height(ARM_PLATE);
-    passive_wait(1);
-    
-    arm_set_height(ARM_DOWN);
-    passive_wait(1);
-
-    arm_set_orientation(ARM_RIGHT);
-    passive_wait(1.3);
-
-    gripper_release();
-    passive_wait(1);
-
-    arm_set_height(ARM_FLOOR);
-    passive_wait(1);
-
-    arm_set_orientation(ARM_FRONT);
-    passive_wait(1);
-
-    gripper_release();
-    passive_wait(1);
-
-    go_to_reached = false;
-    go_to(1.256, 0.024);
-
-    gripper_grip();
-    passive_wait(1);
-
-    go_to_reached = false;
-    go_to(1.256, -0.36);
-
-    arm_set_height(ARM_PLATE);
-    passive_wait(1);
-    
-    arm_set_height(ARM_DOWN);
-    passive_wait(1);
-
-    arm_set_orientation(ARM_RIGHT);
-    passive_wait(1.3);
-
-    gripper_release();
-    passive_wait(1);
-
-    arm_set_height(ARM_FLOOR);
-    passive_wait(1);
-
-    arm_set_orientation(ARM_FRONT);
-    passive_wait(1);
-   
-    go_to_reached = false; //
-    go_to(-1.6, 0.5);    
-    
-    go_to_reached = false;
-    go_to(-1.6, 0.359);
-
-    gripper_grip();
-    passive_wait(1);
-
-    go_to_reached = false;
-    go_to(-1.6, 0.5);
-
-    arm_set_height(ARM_PLATE);
-    passive_wait(1);
-
-    go_to_reached = false;
-    go_to(1.256, -0.86);
-
-    arm_set_height(ARM_DOWN);
-    passive_wait(1);
-
-    arm_set_orientation(ARM_RIGHT);
-    passive_wait(1.3);
-
-    gripper_release();
-    passive_wait(1);
+    place_double((Vector){-1.75, 0.409}, (Vector){1.256, 1.14});
+    place_double((Vector){-1.7, 0.409}, (Vector){1.256, 0.64});
+    place_double((Vector){-1.65, 0.409}, (Vector){1.256, 0.14});
+    place_double((Vector){-1.6, 0.409}, (Vector){1.256, -0.36});
+    place_double((Vector){-1.75, 0.359}, (Vector){1.256, -0.86});
+
+    place_single({{-1.7, 0.5}, {-1.7, 0.359}, {-1.7, 0.5}, {1.256, 1.0365}, {1.256, 1.049}, {1.256, 1.14}, {1.256, 1.0240}, {1.256, 0.64}});
+    place_single({{-1.65, 0.5}, {-1.65, 0.359}, {-1.65, 0.5}, {1.256, 0.0365}, {1.256, 0.049}, {1.256, 0.14}, {1.256, 0.024}, {1.256, -0.36}});
+
+    place_double((Vector){-1.6, 0.359}, (Vector){1.256, -0.86});
 
     break;
 
-
-
-
-
-
-    // x = 1.256;
-    // y = 1.138;
-    // while(true){
-    //   step();
-
-    //   base_control();
-    // }
-    
-
   }
 
+  cout << wb_robot_get_time() / 60 << endl;
   wb_robot_cleanup();
 
   return 0;
 }
 
-// -1.725 0.441
-// -1.625 0.441
-
-// -1.75 0.6
-// -1.75 0.409
 

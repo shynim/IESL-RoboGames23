@@ -1,12 +1,12 @@
 #ifndef GRIPPER_H
 #define GRIPPER_H
 
+#include <webots/motor.h>
+#include <webots/robot.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-#include <webots/motor.h>
-#include <webots/robot.h>
 
 void gripper_init();
 

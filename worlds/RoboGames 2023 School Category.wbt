@@ -35,8 +35,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.1516700938346585 0.014893178011086023 -0.9883189646490227 2.9480848434589895
-  position 4.903402256337751 0.956927946240256 1.5835895737810533
+  orientation 0.15166645589956687 -0.01630882047300688 -0.98829717622264 3.353324079211616
+  position 5.217955319562276 -1.2887679383491655 1.5835895737810533
 }
 TexturedBackground {
 }
@@ -55,81 +55,6 @@ Youbot {
     ""
   ]
   bodySlot [
-    Lidar {
-      translation -1.53072e-07 -0.16 -0.0699963
-      rotation 2.653579999981315e-06 -2.653579999981315e-06 0.9999999999929585 -1.5707953071795862
-      children [
-        Solid {
-          rotation 0 1 0 1.5708
-          children [
-            Shape {
-              appearance PBRAppearance {
-                baseColor 0 1 0
-              }
-              geometry Cylinder {
-                height 0.01
-                radius 0.01
-              }
-            }
-          ]
-        }
-      ]
-      name "lidar3"
-      horizontalResolution 1
-      fieldOfView 1e-23
-      numberOfLayers 1
-      maxRange 4
-    }
-    Lidar {
-      translation 2.08292e-13 0.16 -0.0699957
-      rotation 2.653579999981315e-06 2.653579999981315e-06 0.9999999999929585 1.5708
-      children [
-        Solid {
-          rotation 0 1 0 1.5708
-          children [
-            Shape {
-              appearance PBRAppearance {
-                baseColor 0 1 0
-              }
-              geometry Cylinder {
-                height 0.01
-                radius 0.01
-              }
-            }
-          ]
-        }
-      ]
-      name "lidar1"
-      horizontalResolution 1
-      fieldOfView 1e-23
-      numberOfLayers 1
-      maxRange 4
-    }
-    Lidar {
-      translation 0.28 0 -0.0699991
-      rotation 0 1 0 5.30716e-06
-      children [
-        Solid {
-          rotation 0 1 0 1.5708
-          children [
-            Shape {
-              appearance PBRAppearance {
-                baseColor 0 1 0
-              }
-              geometry Cylinder {
-                height 0.01
-                radius 0.01
-              }
-            }
-          ]
-        }
-      ]
-      name "lidar2"
-      horizontalResolution 1
-      fieldOfView 1e-23
-      numberOfLayers 1
-      maxRange 4
-    }
     Compass {
       translation 0 0 0.01
       children [

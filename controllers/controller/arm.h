@@ -1,15 +1,15 @@
 #ifndef ARM_H
 #define ARM_H
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #include <webots/motor.h>
 #include <webots/robot.h>
 
 #include <math.h>
 #include <stdio.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 void arm_init();
 

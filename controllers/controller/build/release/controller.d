@@ -7,5 +7,6 @@ build/release/controller.o: controller.cpp \
  C:\Program\ Files\Webots/include/controller/c/webots/lidar.h \
  C:\Program\ Files\Webots/include/controller/c/webots/lidar_point.h \
  C:\Program\ Files\Webots/include/controller/c/webots/compass.h \
- C:\Program\ Files\Webots/include/controller/c/webots/gps.h arm.h \
+ C:\Program\ Files\Webots/include/controller/c/webots/gps.h base.h \
+ C:\Program\ Files\Webots/include/controller/c/webots/types.h arm.h \
  gripper.h
